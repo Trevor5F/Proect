@@ -4,6 +4,10 @@ from goals import views
 
 
 urlpatterns = [
+    path("board/create", views.BoardCategoryCreateView.as_view(), name='create-board'),
+    path("board/list", views.BoardListView.as_view(), name='cat-boards'),
+    path("board/<pk>", views.BoardView.as_view(), name='retrive-update-destroy-board'),
+
     path("goal_category/create", views.GoalCategoryCreateView.as_view(), name='create-category'),
     path("goal_category/list", views.GoalCategoryListView.as_view(), name='cat-list'),
     path("goal_category/<pk>", views.GoalCategoryView.as_view(), name='cat-detail'),
