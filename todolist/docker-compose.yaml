@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - ./database/postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${USER}
+      POSTGRES_PASSWORD: ${PASSWORD}
+      POSTGRES_DB: ${NAME}
+    restart: on-failure
+
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${USER} -d ${NAME}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  front:
+    image: sermalenk/skypro-front:lesson-34
+    ports:
+      - "80:80"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  migrations:
+    build: .
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py migrate"   
+
+  api:
+    build: .
+
+    volumes:
+      - ./.env:/todolist_code/.env
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+volumes:
+  postgres_data:
+
