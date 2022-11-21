@@ -153,4 +153,4 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
-BOT_TOKEN = "5730201475:AAEUhRVHuo_gcRfc5sRwczCxUC9ot-9tyNk"
+BOT_TOKEN = "5698932750:AAHDSjvYyGSRjDaltDsbBw9pdzQiBdBMTzU"
