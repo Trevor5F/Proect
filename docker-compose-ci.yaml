@@ -26,7 +26,7 @@ services:
         condition: service_healthy
 
   migrations:
-    image: trevor5f/todolist_project:$GITHUB_REF_NAME-$GITHUB_RUN_IDbuild
+    image: trevor5f/todolist_project:${GITHUB_REF_NAME}-${GITHUB_RUN_IDbuild}
     env_file:
       - .env
     depends_on:
@@ -36,7 +36,7 @@ services:
       sh -c "python manage.py migrate"   
 
   api:
-    image: trevor5f/todolist_project:$GITHUB_REF_NAME-$GITHUB_RUN_IDbuild
+    image: trevor5f/todolist_project:${GITHUB_REF_NAME}-${GITHUB_RUN_IDbuild}
 
     volumes:
       - ./.env:/todolist_code/.env
