@@ -18,19 +18,19 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
     steps:
       - name: clone
         uses: actions/checkout@v2
       - name: render configs
         run: |
           mkdir deploy
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
           cat docker-compose-ci.yaml | envsubst > deploy/docker-compose.yaml
-          cat .env-ci | envsubst > deploy/.env
       - name: copy files
         uses: appleboy/scp-action@master
         with:
