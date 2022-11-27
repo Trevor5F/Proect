@@ -29,6 +29,12 @@ services:
 
   migrations:
     image: trevor5f/todolist_project:${GITHUB_REF_NAME}-${GITHUB_RUN_IDbuild}
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_HOST: ${DB_HOST}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
     depends_on:
       db:
         condition: service_healthy
@@ -37,7 +43,12 @@ services:
 
   api:
     image: trevor5f/todolist_project:${GITHUB_REF_NAME}-${GITHUB_RUN_IDbuild}
-
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_HOST: ${DB_HOST}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
 
     depends_on:
       db:

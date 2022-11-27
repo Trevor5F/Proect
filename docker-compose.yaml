@@ -6,9 +6,10 @@ services:
     volumes:
       - ./database/postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: ${USER}
-      POSTGRES_PASSWORD: ${PASSWORD}
-      POSTGRES_DB: ${NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_HOST: ${DB_HOST}
     restart: on-failure
 
     healthcheck:
@@ -27,8 +28,12 @@ services:
 
   migrations:
     build: .
-    env_file:
-      - .env
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
+
     depends_on:
       db:
         condition: service_healthy
