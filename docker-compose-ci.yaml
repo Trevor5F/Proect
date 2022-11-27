@@ -27,8 +27,9 @@ services:
       db:
         condition: service_healthy
 
+
   migrations:
-    image: trevor5f/todolist_project:${GITHUB_REF_NAME}-${GITHUB_RUN_IDbuild}
+    image: trevor5f/todolist_project:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
@@ -42,7 +43,7 @@ services:
       sh -c "python manage.py migrate"   
 
   api:
-    image: trevor5f/todolist_project:${GITHUB_REF_NAME}-${GITHUB_RUN_IDbuild}
+    image: trevor5f/todolist_project:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
