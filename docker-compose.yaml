@@ -53,3 +53,6 @@ services:
 volumes:
   postgres_data:
 
+networks:
+  todolist:
+    driver: brige

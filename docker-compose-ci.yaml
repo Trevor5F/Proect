@@ -2,14 +2,11 @@ version: '3.9'
 
 services:
   db:
-    image: postgres:15
+    image: postgres:13-alpine
     volumes:
       - ./database/postgres_data:/var/lib/postgresql/data
-    environment:
-       POSTGRES_HOST: ${DB_HOST}
-       POSTGRES_USER: ${DB_USER}
-       POSTGRES_PASSWORD: ${DB_PASSWORD}
-       POSTGRES_DB: ${DB_NAME}
+    env_file:
+      - .env
 
     restart: on-failure
 
@@ -19,6 +16,9 @@ services:
       timeout: 5s
       retries: 5
 
+    networks:
+      - todolist
+
   front:
     image: sermalenk/skypro-front:lesson-34
     ports:
@@ -26,36 +26,49 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
+    networks:
+      - todolist
 
   migrations:
     image: trevor5f/todolist_project:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    environment:
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      DB_HOST: ${DB_HOST}
-      DB_PASSWORD: ${DB_PASSWORD}
-      SECRET_KEY: ${SECRET_KEY}
+    env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy
     command: >
-      sh -c "python manage.py migrate"   
+      sh -c "python manage.py migrate"
+    networks:
+      - todolist
 
   api:
     image: trevor5f/todolist_project:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    environment:
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      DB_HOST: ${DB_HOST}
-      DB_PASSWORD: ${DB_PASSWORD}
-      SECRET_KEY: ${SECRET_KEY}
-
+    env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - todolist
+
+  bot:
+      image: trevor5f/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+      depends_on:
+        migrations:
+          condition: service_completed_successfully
+        postgres:
+          condition: service_healthy
+      env_file:
+        - ./.env
+      networks:
+        - todolist
+      command: >
+        sh -c "python manage.py runbot"
 
 
 volumes:
   postgres_data:
 
+networks:
+  todolist:
+    driver: brige
