@@ -11,7 +11,7 @@ services:
     restart: on-failure
 
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${USER} -d ${NAME}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
       interval: 5s
       timeout: 5s
       retries: 5
