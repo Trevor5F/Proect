@@ -51,19 +51,19 @@ services:
     networks:
       - todolist
 
-  bot:
-      image: trevor5f/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-      depends_on:
-        migrations:
-          condition: service_completed_successfully
-        postgres:
-          condition: service_healthy
-      env_file:
-        - ./.env
-      networks:
-        - todolist
-      command: >
-        sh -c "python manage.py runbot"
+#  bot:
+#      image: trevor5f/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+#      depends_on:
+#        migrations:
+#          condition: service_completed_successfully
+#        postgres:
+#          condition: service_healthy
+#      env_file:
+#        - ./.env
+#      networks:
+#        - todolist
+#      command: >
+#        sh -c "python manage.py runbot"
 
 
 volumes:
