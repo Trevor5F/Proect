@@ -71,4 +71,4 @@ volumes:
 
 networks:
   todolist:
-    driver: brige
+    driver: bridge

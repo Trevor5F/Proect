@@ -50,4 +50,6 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             cd test_app
+            docker-compose down --rmi all --volumes
+            docker system prune -a -f
             echo ${{ secrets.PASSWORD }} | sudo -S docker compose up -d
