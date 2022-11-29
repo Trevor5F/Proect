@@ -26,22 +26,22 @@ services:
       db:
         condition: service_healthy
 
-  bot:
-    build:
-      context: ..
-    depends_on:
-      migrations:
-        condition: service_completed_successfully
-      postgres:
-        condition: service_healthy
-    env_file:
-      - ../.env
-    environment:
-      POSTGRES_HOST: postgres
-    networks:
-      - todolist
-    command: >
-      sh -c "python manage.py runbot"      
+#  bot:
+#    build:
+#      context: ..
+#    depends_on:
+#      migrations:
+#        condition: service_completed_successfully
+#      postgres:
+#        condition: service_healthy
+#    env_file:
+#      - ../.env
+#    environment:
+#      POSTGRES_HOST: postgres
+#    networks:
+#      - todolist
+#    command: >
+#      sh -c "python manage.py runbot"
 
   migrations:
     build: .
