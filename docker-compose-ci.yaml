@@ -27,6 +27,19 @@ services:
       db:
         condition: service_healthy
 
+  bot:
+    image: trevor5f/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    env_file:
+      - ./.env
+    networks:
+      - todolist
+    command: >
+      sh -c "python manage.py runbot"      
 
   migrations:
     image: trevor5f/todolist_project:$GITHUB_REF_NAME-$GITHUB_RUN_ID
@@ -58,20 +71,6 @@ services:
         condition: service_completed_successfully
     ports:
       - "8000:8000"
-
-  bot:
-      image: trevor5f/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-      depends_on:
-        migrations:
-          condition: service_completed_successfully
-        postgres:
-          condition: service_healthy
-      env_file:
-        - ./.env
-      networks:
-        - todolist
-      command: >
-        sh -c "python manage.py runbot"
 
 
 volumes:
