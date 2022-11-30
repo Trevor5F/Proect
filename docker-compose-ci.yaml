@@ -10,6 +10,8 @@ services:
        POSTGRES_USER: ${DB_USER}
        POSTGRES_PASSWORD: ${DB_PASSWORD}
        POSTGRES_DB: ${DB_NAME}
+       SOCIAL_AUTH_VK_OAUTH2_KEY: ${{VK_OAUTH2_KEY}}
+       SOCIAL_AUTH_VK_OAUTH2_SECRET: ${{VK_OAUTH2_SECRET}}
 
     restart: on-failure
 
@@ -49,6 +51,8 @@ services:
       DB_HOST: ${DB_HOST}
       DB_PASSWORD: ${DB_PASSWORD}
       SECRET_KEY: ${SECRET_KEY}
+      SOCIAL_AUTH_VK_OAUTH2_KEY: ${{VK_OAUTH2_KEY}}
+      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${{VK_OAUTH2_SECRET}}
     depends_on:
       db:
         condition: service_healthy
@@ -64,6 +68,8 @@ services:
       DB_HOST: ${DB_HOST}
       DB_PASSWORD: ${DB_PASSWORD}
       SECRET_KEY: ${SECRET_KEY}
+      SOCIAL_AUTH_VK_OAUTH2_KEY: ${{VK_OAUTH2_KEY}}
+      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${{VK_OAUTH2_SECRET}}
     depends_on:
       db:
         condition: service_healthy
